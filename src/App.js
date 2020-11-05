@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import api from "./services/api";
 
 import "./styles.css";
 
 function App() {
   async function handleAddRepository() {
-    // TODO
+    const [projects, setProjects] = useState([])
+
+    useEffect(() => {
+      api.get('projects').then(response => {
+        console.log(response)
+      })
+    })
   }
 
   async function handleRemoveRepository(id) {
