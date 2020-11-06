@@ -1,17 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import api from "./services/api";
 
 import "./styles.css";
 
 function App() {
-  async function handleAddRepository() {
-    const [projects, setProjects] = useState([])
 
-    useEffect(() => {
-      api.get('projects').then(response => {
-        console.log(response)
-      })
+  const [repositories, setRepositories] = useState([]);
+
+  useEffect(() => {
+    api.get('repositories').then(response => {
+      setRepositories(response.data)
+      console.log(response.data)
     })
+  }, [])
+
+  async function handleAddRepository() {
+    const response = await api.post('repositories', {
+      title: `Novo projeto${Date.now()}`,
+      owner: "Leo mestre do universo"
+  })
+  const repositories = response.data;
+
+  setRepositories([...repositories, repositories.title])
   }
 
   async function handleRemoveRepository(id) {
